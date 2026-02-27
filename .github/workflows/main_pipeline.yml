@@ -1,6 +1,8 @@
 name: CI/CD Scalable Pipeline
 
-on: [push]
+on:
+  push:
+    branches: [ "main" ]
 
 permissions:
   contents: read
