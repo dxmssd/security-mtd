@@ -8,7 +8,7 @@ RUN pip  install --no-cache-dir --user -r requirements.txt
 
 
 #===== Runtime =========
-FROM pyhton:3.11-slim-bookworm
+FROM python:3.11-slim-bookworm
 #==== Users privileges ====
 RUN groupadd -r mtd_user && useradd -r -g mtd_user mtd_user
 
