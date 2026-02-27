@@ -22,10 +22,6 @@ COPY . .
 RUN chown -R mtd_user:mtd_user /app #
 USER mtd_user
 
-#we adjusted permissions so that the user dante owns their app
-RUN chown -R dante:dante /app
-USER dante
-
 # Variables that ArgoCD/Kubernetes will inject to scale
 ENV PATH=/home/mtd_user/.local/bin:$PATH \
     PYTHONUNBUFFERED=1 \
