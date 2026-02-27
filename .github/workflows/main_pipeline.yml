@@ -2,6 +2,10 @@ name: CI/CD Scalable Pipeline
 
 on: [push]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   security_scan:
     runs-on: ubuntu-latest
