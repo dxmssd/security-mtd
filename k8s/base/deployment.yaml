@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
         - name: mtd-container
-          image : ghcr.io/dxmssd/Security-MTD/mtd-app:latest
+          image : tags: ghcr.io/dxmssd/security-mtd/mtd-app:latest
           imagePullPolicy: Always
           
