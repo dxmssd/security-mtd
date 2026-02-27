@@ -20,4 +20,4 @@ jobs:
         with:
           context: ./app
           push: true
-          tags: ghcr.io/${{ github.repository }}/mtd-app:latest
+          tags: ghcr.io/dxmssd/security-mtd/mtd-app:latest
