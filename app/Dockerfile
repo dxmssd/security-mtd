@@ -3,7 +3,7 @@ FROM python:3.11-slim AS builder
 WORKDIR /app
 
 #===== Install dependence ====
-COPY requirements.txt .
+COPY app/requirements.txt .
 RUN pip  install --no-cache-dir --user -r requirements.txt
 
 
@@ -16,8 +16,8 @@ WORKDIR /app
 
 #we copy what is neccesary from the previous stage
 COPY --from=builder /root/.local /home/mtd_user/.local
-WORKDIR /app
-COPY . .
+
+COPY /app
 
 #mtd_ser is the absolte owner of everything inside the /app folder
 RUN chown -R mtd_user:mtd_user /app /home/mtd_user/.local
@@ -27,6 +27,7 @@ RUN chown -R mtd_user:mtd_user /app /home/mtd_user/.local
 ENV PATH=/home/mtd_user/.local/bin:$PATH \
     PYTHONPATH="/app" \
     PYTHONUNBUFFERED=1
+    PATH="/home/mtd_user/.local/bin:${PATH}"
 
 USER mtd_user
 
