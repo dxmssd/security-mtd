@@ -1,0 +1,15 @@
+# Ignorar el estado local de Terraform (MUY IMPORTANTE)
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+
+# Ignorar la carpeta de binarios de los proveedores
+.terraform/
+
+# Ignorar archivos de variables con datos sensibles
+# (Aunque quieras ignorar variables.tf, lo ideal es ignorar solo los .tfvars)
+*.tfvars
+*.tfvars.json
+
+# Archivos de log
+*.log
