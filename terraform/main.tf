@@ -19,13 +19,13 @@ provider "azurerm" {
 }
 
 # ============================================================================
-# 1. VARIABLES (Las llaves del MTD)
+# 1. VARIABLES 
 # ============================================================================
 
-variable "ssh_port_mutation" {
-  description = "Puerto dinámico para el Honeypot decidido por la IA"
-  type        = string
-  default     = "22"
+variable "mtd_active_ports" {
+  description = "Dynamic port for the honeypot decided by the ai"
+  type        = list(string)
+  default     = ["22", "8080", "8443"]
 }
 
 # ============================================================================
@@ -61,14 +61,18 @@ resource "azurerm_public_ip" "honeypot_public_ip" {
   sku                 = "Standard"
 }
 
-# GRUPO DE SEGURIDAD (Vacío de reglas internas para mejor control)
+#============================================================
+# GROUP SECURITY
+#============================================================
 resource "azurerm_network_security_group" "honeypot_nsg" {
   name                = "HoneypotNSG"
   location            = azurerm_resource_group.honeypot_rg.location
   resource_group_name = azurerm_resource_group.honeypot_rg.name
 }
 
-# REGLA DINÁMICA (Aquí es donde ocurre la magia del MTD)
+#============================================================
+# RULER DINAMIC
+#============================================================
 resource "azurerm_network_security_rule" "honeypot_ssh_rule" {
   name                        = "MTD-Dynamic-Port"
   priority                    = 100
@@ -76,7 +80,7 @@ resource "azurerm_network_security_rule" "honeypot_ssh_rule" {
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_range      = var.ssh_port_mutation # <--- Conexión con la variable
+  destination_port_ranges      = var.mtd_active_ports
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.honeypot_rg.name
@@ -117,7 +121,7 @@ resource "azurerm_linux_virtual_machine" "honeypot_vm" {
      public_key          = file("~/.ssh/id_rsa.pub")
   }
 
-  # ESTO ES LO QUE AGREGAMOS: Permite que la VM se identifique ante Azure Monitor
+  
   identity {
     type = "SystemAssigned"
   }
@@ -220,5 +224,5 @@ output "ssh_command" {
 }
 
 output "current_mtd_port" {
-  value = var.ssh_port_mutation
+  value = var.mtd_active_ports
 }
