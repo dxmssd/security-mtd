@@ -15,7 +15,18 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
+}
+# ============================================================================
+# RANDOM SUFFIX GENERATOR
+# ============================================================================
+resource "random_id" "server_suffix" {
+  byte_length = 3
+  
 }
 
 # ============================================================================
@@ -32,7 +43,7 @@ variable "mtd_active_ports" {
 # 2. RESOURCE GROUP
 # ============================================================================
 resource "azurerm_resource_group" "honeypot_rg" {
-  name     = "Honeypot-Terraform-RG"
+  name     = "rg-mtd-${random_id.server_suffix.hex}"
   location = "East US 2"
 }
 
@@ -65,7 +76,7 @@ resource "azurerm_public_ip" "honeypot_public_ip" {
 # GROUP SECURITY
 #============================================================
 resource "azurerm_network_security_group" "honeypot_nsg" {
-  name                = "HoneypotNSG"
+  name                = "nsg-mtd-${random_id.server_suffix.hex}"
   location            = azurerm_resource_group.honeypot_rg.location
   resource_group_name = azurerm_resource_group.honeypot_rg.name
 }
@@ -109,7 +120,7 @@ resource "azurerm_network_interface_security_group_association" "nsg_assoc" {
 # 4. VIRTUAL MACHINE
 # ============================================================================
 resource "azurerm_linux_virtual_machine" "honeypot_vm" {
-  name                = "HoneypotVM"
+  name                = "vm-mtd-${random_id.server_suffix.hex}"
   resource_group_name = azurerm_resource_group.honeypot_rg.name
   location            = azurerm_resource_group.honeypot_rg.location
   size                = "Standard_B1s"
