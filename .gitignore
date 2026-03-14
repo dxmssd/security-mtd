@@ -1,23 +1,19 @@
-# Secretos y variables de entorno
 .env
 *.env
 
-# Archivos de estado de Terraform (Contienen IPs y datos sensibles)
 .terraform/
 *.tfstate
 *.tfstate.*
 
-# Llaves SSH y certificados (Por si acaso se te ocurre moverlos aquí)
 *.pem
 *.key
 id_rsa*
 
-# Archivos de Python (Basura de compilación)
 __pycache__/
 *.py[cod]
 venv/
 .venv/
 
-# Archivos temporales del sistema
+
 .DS_Store
 Thumbs.db
