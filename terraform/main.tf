@@ -53,7 +53,6 @@ resource "azurerm_container_registry" "acr" {
   # CAMBIA ESTAS DOS LÍNEAS:
   resource_group_name = azurerm_resource_group.honeypot_rg.name
   location            = azurerm_resource_group.honeypot_rg.location
-  
   sku                 = "Basic"
   admin_enabled       = true
 }
@@ -184,10 +183,11 @@ resource "azurerm_linux_virtual_machine" "honeypot_vm" {
   location            = azurerm_resource_group.honeypot_rg.location
   size                = "Standard_B1s"
 
-  admin_username                  = "var.admin_username"
+
+  admin_username                  = var.admin_username
   disable_password_authentication = true
   admin_ssh_key {
-    username = "var.admin_username"
+    username = var.admin_username
      public_key          = file("~/.ssh/id_rsa.pub")
   }
 
@@ -208,7 +208,7 @@ resource "azurerm_linux_virtual_machine" "honeypot_vm" {
   source_image_reference {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts"
+    sku       = "22_04-lts" 
     version   = "latest"
   }
 }
