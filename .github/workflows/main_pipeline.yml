@@ -29,5 +29,3 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/security-mtd:latest
-
-          #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
